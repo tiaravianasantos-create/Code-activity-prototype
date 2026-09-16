@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, ChevronLeft, Expand, LoaderCircle, Play, RotateCcw, Sparkles, X } from "lucide-react";
+import { Check, ChevronLeft, Expand, LoaderCircle, Play, RotateCcw, Sparkles, X } from "lucide-react";
 import { flushSync } from "react-dom";
 import { createRoot } from "react-dom/client";
 import { Button } from "./components/ui/button";
@@ -294,7 +294,7 @@ function App() {
           </div>
           <div className="run-row"><Button className="run" onClick={run} disabled={status === "loading"}><Play size={11} fill="currentColor"/>Run</Button><Button variant="ghost" onClick={()=>{setCode(lesson.code);setStatus("idle");}}><RotateCcw size={13}/>Reset</Button></div>
           <div className={`output-pane output-${status}`}><div className="output-label">▱ Output</div>{status === "idle" && <div className="empty-output state-enter" key="idle"><div className="output-symbol">⌬</div><strong>No output yet</strong><small>Execute the code above to display the output.</small></div>}{status === "loading" && <div className="loading-output state-enter" role="status" key="loading"><LoaderCircle size={28}/><strong>Running your code</strong><small>{lesson.delay ? "Optimizing candidate routes…" : "Preparing output…"}</small></div>}{status === "result" && <div className="result-output state-enter" key="result">{lesson.visual && <button className="graphic-button" onClick={openModal} aria-label="Open result graphic"><Graphic kind={lesson.visual}/><span><Expand size={12}/> View larger</span></button>}<pre>{lesson.output}</pre></div>}</div>
-          {status === "result" && <div className="footer-actions">{step < lessons.length - 1 ? <Button onClick={submit}>Submit<ArrowRight size={13}/></Button> : <Button onClick={submit}>Complete<Check size={13}/></Button>}</div>}
+          {status === "result" && <div className="footer-actions">{step < lessons.length - 1 ? <Button onClick={submit}>Submit</Button> : <Button onClick={submit}>Complete<Check size={13}/></Button>}</div>}
         </section>
       </div>
       {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><small>RESULT</small><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}
