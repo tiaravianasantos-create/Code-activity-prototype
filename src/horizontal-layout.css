@@ -480,6 +480,7 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
   }
 
   .assistance-button {
+    display: none;
     right: 16px;
     font-size: 12px;
   }
