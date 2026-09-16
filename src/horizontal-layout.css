@@ -41,38 +41,12 @@
   background: transparent;
 }
 
-.black-opal-logo {
-  width: 34px;
-  height: 32px;
-  position: absolute;
-  left: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.logo-mark-crop img {
-  width: 150px;
-  height: 32px;
-  display: block;
-  object-fit: contain;
-  object-position: left center;
-}
-
-.logo-mark-crop {
-  width: 34px;
-  height: 32px;
-  position: absolute;
-  inset: 0 auto 0 0;
-  display: block;
-  overflow: hidden;
-}
-
 .exit-activity {
   width: 42px;
   height: 34px;
   min-height: 34px;
   position: absolute;
-  left: 66px;
+  left: 24px;
   top: 50%;
   transform: translateY(-50%);
   padding: 0;
@@ -500,12 +474,8 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 }
 
 @media (max-width: 900px) {
-  .black-opal-logo {
-    width: 28px;
-  }
-
   .exit-activity {
-    left: 58px;
+    left: 24px;
   }
 
   .assistance-button {
@@ -514,14 +484,6 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 
   .progress-crumbs {
     left: 100px;
-  }
-
-  .logo-mark-crop img {
-    width: 120px;
-  }
-
-  .logo-mark-crop {
-    width: 28px;
   }
 
   .workspace {
@@ -559,14 +521,8 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
     height: 40px;
   }
 
-  .black-opal-logo {
-    width: 24px;
-    height: 24px;
-    left: 12px;
-  }
-
   .exit-activity {
-    left: 44px;
+    left: 12px;
   }
 
   .assistance-button {
@@ -576,16 +532,6 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 
   .progress-crumbs {
     left: 82px;
-  }
-
-  .logo-mark-crop img {
-    width: 104px;
-    height: 24px;
-  }
-
-  .logo-mark-crop {
-    width: 24px;
-    height: 24px;
   }
 
   .topic-progress {

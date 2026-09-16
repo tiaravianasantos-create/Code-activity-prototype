@@ -249,7 +249,6 @@ function App() {
   return <TooltipProvider delayDuration={100}>
     <main className="app">
       <nav className="progress-nav" aria-label="Course progress">
-        <div className="black-opal-logo" role="img" aria-label="Black Opal"><span className="logo-mark-crop" aria-hidden="true"><img src="https://cdn.prod.website-files.com/64fe49580f2049d94a40e0df/69bc746496241fdc7d737ef4_Black.svg" alt="" /></span></div>
         <Button className="exit-activity" variant="ghost" size="icon" aria-label="Exit activity" onClick={() => window.history.back()}><ChevronLeft size={22} strokeWidth={2.25} /></Button>
         <div className="progress-crumbs" aria-label="Breadcrumb"><span>Applications</span><span>›</span><span className="crumb-current">Logistics</span></div>
         <div className="topic-progress">
