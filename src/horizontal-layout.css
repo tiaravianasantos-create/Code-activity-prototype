@@ -228,7 +228,7 @@
 }
 
 .work-area-compact {
-  grid-template-rows: 180px 42px 180px 0;
+  grid-template-rows: minmax(245px, 1fr) 42px minmax(245px, 1fr) 0;
 }
 
 .code-panel-transition {
@@ -250,7 +250,6 @@
 
 .editor-pane-compact {
   min-height: 0;
-  height: 180px;
 }
 
 .line-numbers {
