@@ -344,6 +344,7 @@
 
 .button,
 .graphic-button {
+  cursor: zoom-in;
   transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, opacity 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
 
@@ -564,6 +565,42 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 
   .lesson-copy {
     padding: 24px 18px;
+  }
+
+  .lesson-copy h1 {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  .lesson-copy p,
+  .lesson-note {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .editor-pane textarea,
+  .editor-code-stack textarea,
+  .syntax-layer {
+    font-size: 13px;
+    line-height: 24px;
+  }
+
+  .line-numbers {
+    font-size: 13px;
+    line-height: 24px;
+  }
+
+  .button {
+    font-size: 13px;
+  }
+
+  .output-label,
+  .result-output pre,
+  .empty-output small,
+  .empty-output strong,
+  .loading-output small,
+  .loading-output strong {
+    font-size: 13px;
   }
 
   .workspace {
