@@ -70,6 +70,7 @@
   color: #4d4854;
   border: 0;
   background: transparent;
+  font-size: 13px;
 }
 
 .assistance-button:hover {
@@ -80,14 +81,14 @@
 .progress-crumbs {
   height: 32px;
   position: absolute;
-  left: 112px;
+  left: 78px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   align-items: center;
   gap: 7px;
   color: #77727e;
-  font-size: 10px;
+  font-size: 12px;
   white-space: nowrap;
 }
 
@@ -480,10 +481,12 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 
   .assistance-button {
     right: 16px;
+    font-size: 12px;
   }
 
   .progress-crumbs {
-    left: 100px;
+    left: 78px;
+    font-size: 11px;
   }
 
   .workspace {
@@ -528,10 +531,12 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
   .assistance-button {
     right: 12px;
     padding: 0 10px;
+    font-size: 11px;
   }
 
   .progress-crumbs {
-    left: 82px;
+    left: 64px;
+    font-size: 10px;
   }
 
   .topic-progress {
