@@ -227,6 +227,10 @@
   grid-template-rows: minmax(300px, 1.08fr) 42px minmax(245px, .92fr) 0;
 }
 
+.work-area-compact {
+  grid-template-rows: 180px 42px minmax(245px, 1fr) 0;
+}
+
 .code-panel-transition {
   view-transition-name: code-panel;
 }
@@ -242,6 +246,11 @@
 .editor-pane textarea,
 .line-numbers {
   padding-top: 18px;
+}
+
+.editor-pane-compact {
+  min-height: 0;
+  height: 180px;
 }
 
 .line-numbers {

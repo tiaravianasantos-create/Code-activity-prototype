@@ -187,6 +187,7 @@ function App() {
   const highlightRef = useRef(null);
   const lesson = lessons[step];
   const activeTopic = Math.floor(step / 4);
+  const isCompactActivity = lesson.code.includes("___");
 
   const navigateToStep = (nextStep) => {
     const direction = nextStep >= step ? "forward" : "backward";
@@ -270,8 +271,8 @@ function App() {
       </nav>
       <div className="workspace">
         <section className="lesson-copy lesson-fade" key={`lesson-${step}`}><h1>{lesson.title}</h1><p>{lesson.body}</p><div className="lesson-note">{lesson.note}</div></section>
-        <section className="work-area code-panel-transition">
-          <div className={`editor-pane editor-scroll editor-scroll-${transitionDirection}`} key={`editor-${step}`}>
+        <section className={`work-area code-panel-transition ${isCompactActivity ? "work-area-compact" : ""}`}>
+          <div className={`editor-pane editor-scroll editor-scroll-${transitionDirection} ${isCompactActivity ? "editor-pane-compact" : ""}`} key={`editor-${step}`}>
             <div className="line-numbers">{Array.from({length:Math.max(8,code.split("\n").length)},(_,index)=><span key={index}>{index+1}</span>)}</div>
             <div className="editor-code-stack">
               <HighlightedCode code={code} highlightRef={highlightRef} />
