@@ -207,8 +207,8 @@
 
 .lesson-copy p {
   max-width: 385px;
-  font-size: 11px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
 .lesson-note {
@@ -218,17 +218,17 @@
   border-left: 0;
   color: #5e5a67;
   background: transparent;
-  font-size: 11px;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.65;
 }
 
 .work-area {
   position: relative;
-  grid-template-rows: minmax(300px, 1.08fr) 42px minmax(245px, .92fr) 0;
+  grid-template-rows: minmax(245px, 1fr) 42px minmax(245px, 1fr) 0;
 }
 
 .work-area-compact {
-  grid-template-rows: 180px 42px minmax(245px, 1fr) 0;
+  grid-template-rows: 180px 42px 180px 0;
 }
 
 .code-panel-transition {
@@ -276,7 +276,15 @@
   border: 0;
   white-space: pre;
   tab-size: 4;
-  font: 10px/20px "DM Mono", monospace;
+  font: 12px/22px "DM Mono", monospace;
+}
+
+.line-numbers {
+  font-size: 12px;
+}
+
+.output-pane {
+  font-size: 13px;
 }
 
 .syntax-layer {
