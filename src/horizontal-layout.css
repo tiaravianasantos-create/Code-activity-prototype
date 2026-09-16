@@ -340,7 +340,7 @@
 
 .completion-toast {
   position: fixed;
-  left: 50%;
+  right: 24px;
   bottom: 24px;
   z-index: 20;
   width: min(420px, calc(100vw - 32px));
@@ -354,7 +354,6 @@
   color: #292631;
   background: #fff;
   box-shadow: 0 12px 30px rgba(41, 38, 49, .16);
-  transform: translateX(-50%);
   animation: state-enter 220ms ease both;
 }
 
@@ -665,8 +664,11 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
   }
 
   .completion-toast {
+    left: 50%;
+    right: auto;
     bottom: 14px;
     padding: 14px;
+    transform: translateX(-50%);
   }
 
   .completion-toast .button {
