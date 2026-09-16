@@ -344,8 +344,11 @@
 
 .button,
 .graphic-button {
-  cursor: zoom-in;
   transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, opacity 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+.graphic-button {
+  cursor: zoom-in;
 }
 
 .button:active:not(:disabled),
@@ -507,6 +510,14 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
     font-size: 11px;
   }
 
+  .topic-progress {
+    position: absolute;
+    left: 78px;
+    right: 24px;
+    width: auto;
+    transform: none;
+  }
+
   .workspace {
     margin: 8px 16px 16px;
     grid-template-columns: 1fr;
@@ -559,7 +570,9 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
   }
 
   .topic-progress {
-    width: calc(100vw - 32px);
+    left: 64px;
+    right: 16px;
+    width: auto;
     gap: 10px;
     transform: none;
   }
@@ -593,6 +606,27 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 
   .button {
     font-size: 13px;
+  }
+
+  .run-row {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .run-row .button {
+    flex: 1;
+    min-height: 42px;
+  }
+
+  .footer-actions {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .footer-actions .button {
+    width: 100%;
+    min-height: 44px;
   }
 
   .output-label,
