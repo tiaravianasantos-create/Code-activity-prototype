@@ -553,6 +553,7 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
   }
 
   .progress-crumbs {
+    display: none;
     left: 64px;
     font-size: 10px;
   }
