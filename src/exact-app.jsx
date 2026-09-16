@@ -183,6 +183,7 @@ function App() {
   const [status, setStatus] = useState("idle");
   const [modal, setModal] = useState(false);
   const [modalClosing, setModalClosing] = useState(false);
+  const [completionToast, setCompletionToast] = useState(false);
   const [completed, setCompleted] = useState(new Set());
   const highlightRef = useRef(null);
   const lesson = lessons[step];
@@ -215,6 +216,7 @@ function App() {
     setCode(lessons[step].code);
     setStatus("idle");
     setModal(false);
+    setCompletionToast(false);
   }, [step]);
 
   useEffect(() => {
@@ -231,6 +233,11 @@ function App() {
   const submit = () => {
     if (status !== "result") return;
     setCompleted((current) => new Set(current).add(step));
+    setCompletionToast(true);
+  };
+
+  const continueActivity = () => {
+    setCompletionToast(false);
     if (step < lessons.length - 1) navigateToStep(step + 1);
   };
 
@@ -298,6 +305,7 @@ function App() {
           {status === "result" && <div className="footer-actions">{step < lessons.length - 1 ? <Button onClick={submit}>Submit</Button> : <Button onClick={submit}>Complete<Check size={13}/></Button>}</div>}
         </section>
       </div>
+      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong>Well done</strong><span>Activity complete.</span></div><Button onClick={continueActivity}>Continue</Button></div>}
       {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><small>RESULT</small><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}
     </main>
   </TooltipProvider>;

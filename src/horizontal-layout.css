@@ -338,6 +338,41 @@
   animation: state-enter 220ms ease both;
 }
 
+.completion-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 20;
+  width: min(420px, calc(100vw - 32px));
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border: 1px solid #ded5ea;
+  border-radius: 8px;
+  color: #292631;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(41, 38, 49, .16);
+  transform: translateX(-50%);
+  animation: state-enter 220ms ease both;
+}
+
+.completion-toast div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.completion-toast strong {
+  font-size: 15px;
+}
+
+.completion-toast span {
+  color: #6c6774;
+  font-size: 12px;
+}
+
 .tools {
   gap: 6px;
 }
@@ -627,6 +662,15 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
   .footer-actions .button {
     width: 100%;
     min-height: 44px;
+  }
+
+  .completion-toast {
+    bottom: 14px;
+    padding: 14px;
+  }
+
+  .completion-toast .button {
+    min-height: 42px;
   }
 
   .output-label,
