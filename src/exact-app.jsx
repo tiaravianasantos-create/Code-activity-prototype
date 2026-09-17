@@ -197,6 +197,7 @@ function App() {
   const [modalClosing, setModalClosing] = useState(false);
   const [completionToast, setCompletionToast] = useState(false);
   const [answerRevealed, setAnswerRevealed] = useState(false);
+  const [submissionAttempted, setSubmissionAttempted] = useState(false);
   const [completed, setCompleted] = useState(new Set());
   const highlightRef = useRef(null);
   const lesson = lessons[step];
@@ -233,6 +234,7 @@ function App() {
     setModal(false);
     setCompletionToast(false);
     setAnswerRevealed(false);
+    setSubmissionAttempted(false);
   }, [step]);
 
   useEffect(() => {
@@ -250,6 +252,7 @@ function App() {
   const run = () => {
     setCompletionToast(false);
     setAnswerRevealed(false);
+    setSubmissionAttempted(false);
     if (lesson.answer) setCode(lesson.answer);
     setStatus("loading");
   };
@@ -265,6 +268,7 @@ function App() {
     setStatus("idle");
     setCompletionToast(false);
     setAnswerRevealed(false);
+    setSubmissionAttempted(false);
   };
 
   const showAnswer = () => {
@@ -277,6 +281,7 @@ function App() {
 
   const submit = () => {
     if (status !== "result" || !isGraded) return;
+    setSubmissionAttempted(true);
     if (isCorrect) setCompleted((current) => new Set(current).add(step));
     setCompletionToast(true);
   };
@@ -346,17 +351,18 @@ function App() {
                   setStatus("idle");
                   setCompletionToast(false);
                   setAnswerRevealed(false);
+                  setSubmissionAttempted(false);
                 }}
               />
             </div>
           </div>
-          <div className="run-row"><Button className="run" onClick={run} disabled={status === "loading"}><Play size={11} fill="currentColor"/>Run</Button><Button variant="ghost" onClick={()=>{setCode(lesson.code);setStatus("idle");setCompletionToast(false);setAnswerRevealed(false);}}><RotateCcw size={13}/>Reset</Button></div>
-          <div className={`output-pane ${status === "result" && isGraded && completed.has(step) ? "output-result" : `output-${status}`} `}><div className="output-label"><span>▱ Output</span><span className={`grading-badge ${isGraded ? "graded" : "not-graded"}`}>{isGraded ? "Graded" : "Not Graded"}</span></div>{status === "idle" && <div className="empty-output state-enter" key="idle"><div className="output-symbol">⌬</div><strong>No output yet</strong><small>Execute the code above to display the output.</small></div>}{status === "loading" && <div className="loading-output state-enter" role="status"><LoaderCircle size={28}/><strong>Running your code</strong><small>{lesson.delay ? "Optimizing candidate routes…" : "Preparing output…"}</small></div>}{status === "result" && <div className="result-output state-enter" key="result">{lesson.visual ? <div className="graphic-result"><button className="graphic-button" onClick={openModal} aria-label="Open result graphic"><Graphic kind={lesson.visual}/><span><Expand size={12}/> View larger</span></button>{isGraded && completed.has(step) && <div className="assertion-alert" role="status">Assertion critieria met!</div>}</div> : <div className="text-result"><pre>{lesson.output}</pre>{isGraded && completed.has(step) && <div className="assertion-alert" role="status">Assertion critieria met!</div>}</div>}{lesson.visual && <pre>{lesson.output}</pre>}</div>}</div>
+          <div className="run-row"><Button className="run" onClick={run} disabled={status === "loading"}><Play size={11} fill="currentColor"/>Run</Button><Button variant="ghost" onClick={()=>{setCode(lesson.code);setStatus("idle");setCompletionToast(false);setAnswerRevealed(false);setSubmissionAttempted(false);}}><RotateCcw size={13}/>Reset</Button></div>
+          <div className={`output-pane ${status === "result" && isGraded && completed.has(step) ? "output-result" : `output-${status}`} `}><div className="output-label"><span>▱ Output</span><span className={`grading-badge ${isGraded ? "graded" : "not-graded"}`}>{isGraded ? "Graded" : "Not Graded"}</span></div>{status === "idle" && <div className="empty-output state-enter" key="idle"><div className="output-symbol">⌬</div><strong>No output yet</strong><small>Execute the code above to display the output.</small></div>}{status === "loading" && <div className="loading-output state-enter" role="status"><LoaderCircle size={28}/><strong>Running your code</strong><small>{lesson.delay ? "Optimizing candidate routes…" : "Preparing output…"}</small></div>}{status === "result" && <div className="result-output state-enter" key="result">{lesson.visual ? <div className="graphic-result"><button className="graphic-button" onClick={openModal} aria-label="Open result graphic"><Graphic kind={lesson.visual}/><span><Expand size={12}/> View larger</span></button>{isGraded && completed.has(step) && <div className="assertion-alert" role="status">Assertion critieria met!</div>}{isGraded && !isCorrect && submissionAttempted && !answerRevealed && <div className="assertion-failures" role="alert"><span>Assertion 1 test failed</span><span>Assertion 2 test failed</span></div>}</div> : <div className="text-result"><pre>{lesson.output}</pre>{isGraded && completed.has(step) && <div className="assertion-alert" role="status">Assertion critieria met!</div>}{isGraded && !isCorrect && submissionAttempted && !answerRevealed && <div className="assertion-failures" role="alert"><span>Assertion 1 test failed</span><span>Assertion 2 test failed</span></div>}</div>}{lesson.visual && <pre>{lesson.output}</pre>}</div>}</div>
           {status === "result" && isGraded && !completionToast && <div className="footer-actions"><Button onClick={submit}>Submit</Button></div>}
         </section>
         </div>
       </div>
-      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong>{isGraded && !isCorrect && !answerRevealed ? <X className="completion-x" size={16}/> : <Check className="completion-check" size={16}/>} {isGraded && !isCorrect && !answerRevealed ? "Not quite" : "Well done"}</strong><span>{isGraded && !isCorrect && !answerRevealed ? "This isnt really what we were after. check the question and look at the tests that are failing" : isGraded ? "You correctly applied the right logic and got the right result. All assertions are met." : "Activity complete"}</span></div>{isGraded && !isCorrect && !answerRevealed ? <div className="completion-actions"><Button onClick={retryActivity}>Retry</Button><Button variant="outline" onClick={showAnswer}>Show answer</Button></div> : <Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button>}</div>}
+      {completionToast && <div className={`completion-toast ${isGraded && !isCorrect && !answerRevealed ? "completion-toast-error" : ""}`} role="status" aria-live="polite"><div><strong>{isGraded && !isCorrect && !answerRevealed ? <X className="completion-x" size={16}/> : <Check className="completion-check" size={16}/>} {isGraded && !isCorrect && !answerRevealed ? "Not quite" : "Well done"}</strong>{!(isGraded && !isCorrect && !answerRevealed) && <span>{isGraded ? "You correctly applied the right logic and got the right result. All assertions are met." : "Activity complete"}</span>}</div>{isGraded && !isCorrect && !answerRevealed ? <div className="completion-actions"><Button onClick={retryActivity}>Retry</Button><Button variant="outline" onClick={showAnswer}>Show answer</Button></div> : <Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button>}</div>}
       {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><small>RESULT</small><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}
     </main>
   </TooltipProvider>;

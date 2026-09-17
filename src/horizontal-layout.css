@@ -424,9 +424,19 @@
 }
 
 .text-result {
+  width: 100%;
+  align-self: flex-start;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #d8d4de;
+  text-align: left;
+}
+
+.text-result pre {
+  width: 100%;
+  text-align: left;
 }
 
 .graphic-result .graphic-button {
@@ -453,6 +463,22 @@
   font-size: 12px;
   font-weight: 600;
   text-align: center;
+}
+
+.assertion-failures {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.assertion-failures span {
+  padding: 8px 10px;
+  border: 1px solid #efb3b8;
+  color: #a32f39;
+  background: #fff0f1;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
 }
 
 .footer-actions {
@@ -484,6 +510,10 @@
   background: #280953;
   box-shadow: 0 12px 30px rgba(41, 38, 49, .16);
   animation: state-enter 220ms ease both;
+}
+
+.completion-toast-error {
+  border-color: transparent;
 }
 
 .completion-toast div {
