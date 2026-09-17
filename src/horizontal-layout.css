@@ -416,7 +416,7 @@
 
 .graphic-result {
   min-width: 0;
-  flex: 0 1 280px;
+  flex: 1 1 0;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -430,9 +430,12 @@
 }
 
 .graphic-result .graphic-button {
+  min-width: 0;
   width: 100%;
   flex: 1;
   max-height: none;
+  border: 0;
+  background: transparent;
 }
 
 .graphic-result .result-graphic {
