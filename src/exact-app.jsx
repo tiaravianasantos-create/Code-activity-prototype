@@ -325,7 +325,7 @@ function App() {
           {status === "result" && isGraded && !completionToast && <div className="footer-actions"><Button onClick={submit}>Submit</Button></div>}
         </section>
       </div>
-      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong><Check className="completion-check" size={16}/>Well done</strong><span>Activity complete</span></div><Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button></div>}
+      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong><Check className="completion-check" size={16}/>Well done</strong><span>{isGraded ? "You correctly applied the right logic and got the right result. All assertions are met." : "Activity complete"}</span></div><Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button></div>}
       {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><small>RESULT</small><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}
     </main>
   </TooltipProvider>;
