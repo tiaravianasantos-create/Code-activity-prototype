@@ -179,7 +179,7 @@
   flex: 0 0 15px;
   padding: 0;
   border: 0;
-  border-radius: 50%;
+  border-radius: 2px;
   background: #e9e4f1;
   cursor: pointer;
   transition: background-color 220ms ease, transform 220ms ease, box-shadow 220ms ease;
@@ -187,6 +187,7 @@
 }
 
 .topic-circle.complete {
+  border-radius: 50%;
   background: #7725d2;
   box-shadow: 0 0 0 3px #f1e7ff;
 }
