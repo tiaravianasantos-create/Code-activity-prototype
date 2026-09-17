@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, CircleUserRound, Code2, Expand, LoaderCircle, MoreHorizontal, Play, RotateCcw, Sparkles, X } from "lucide-react";
+import { ArrowRight, Check, Expand, LoaderCircle, Play, RotateCcw, Sparkles, X } from "lucide-react";
 import { flushSync } from "react-dom";
 import { createRoot } from "react-dom/client";
 import { Button } from "./components/ui/button";
@@ -302,7 +302,7 @@ function App() {
           <button className="app-header-tab active" role="tab" aria-selected="true">Learn</button>
           <button className="app-header-tab" role="tab" aria-selected="false">Practice</button>
         </div>
-        <div className="app-header-tools"><Code2 size={18} /><MoreHorizontal size={18} /><CircleUserRound size={25} /></div>
+        <img className="app-header-tools" src="/right.svg" alt="Workspace controls and profile" />
       </header>
       <div className="workspace">
         <nav className="progress-nav" aria-label="Course progress">

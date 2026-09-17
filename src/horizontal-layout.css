@@ -48,13 +48,9 @@
 
 .app-header-tools {
   margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.app-header-tools svg:last-child {
-  color: #287c91;
+  width: 164px;
+  height: 36px;
+  display: block;
 }
 
 .topbar {
@@ -750,11 +746,8 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
   }
 
   .app-header-tools {
-    gap: 12px;
-  }
-
-  .app-header-tools svg:first-child {
-    display: none;
+    width: 132px;
+    height: auto;
   }
 
   .topbar {
