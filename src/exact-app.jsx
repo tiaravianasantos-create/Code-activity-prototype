@@ -42,6 +42,7 @@ const lessons = [
     answer: `one_edge_cost = terms[0] + (0 - 2*A)\ncost_reduction = terms[0] - one_edge_cost\n\nprint("Cost of leaving depot =", one_edge_cost)\nprint("Cost reduction =", cost_reduction)`,
     output: "Cost of leaving depot = 36600\nCost reduction = 12200",
     graded: true,
+    passes: false,
     completionDescription: "You applied the departure incentive and correctly calculated the reduction for a zero-minute journey.",
   },
   {
@@ -95,6 +96,7 @@ const lessons = [
     output: "1\nDisconnected loop detected.",
     visual: "subtour",
     graded: true,
+    passes: false,
     completionDescription: "You identified the non-zero subtour product and correctly rejected the disconnected route.",
   },
   {
@@ -200,6 +202,7 @@ function App() {
   const activeTopic = Math.floor(step / 4);
   const isCompactActivity = lesson.code.includes("___");
   const isGraded = lesson.graded === true;
+  const isCorrect = lesson.passes !== false;
 
   const navigateToStep = (nextStep) => {
     const direction = nextStep >= step ? "forward" : "backward";
@@ -256,7 +259,7 @@ function App() {
 
   const submit = () => {
     if (status !== "result" || !isGraded) return;
-    setCompleted((current) => new Set(current).add(step));
+    if (isCorrect) setCompleted((current) => new Set(current).add(step));
     setCompletionToast(true);
   };
 
@@ -325,7 +328,7 @@ function App() {
           {status === "result" && isGraded && !completionToast && <div className="footer-actions"><Button onClick={submit}>Submit</Button></div>}
         </section>
       </div>
-      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong><Check className="completion-check" size={16}/>Well done</strong><span>{isGraded ? "You correctly applied the right logic and got the right result. All assertions are met." : "Activity complete"}</span></div><Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button></div>}
+      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong><Check className="completion-check" size={16}/>{isGraded && !isCorrect ? "Not Quite" : "Well done"}</strong><span>{isGraded && !isCorrect ? "This isnt really what we were after. check the question and look at the tests that are failing" : isGraded ? "You correctly applied the right logic and got the right result. All assertions are met." : "Activity complete"}</span></div><Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button></div>}
       {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><small>RESULT</small><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}
     </main>
   </TooltipProvider>;
