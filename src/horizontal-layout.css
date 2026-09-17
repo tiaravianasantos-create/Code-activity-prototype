@@ -455,15 +455,21 @@
 }
 
 .assertion-alert {
-  padding: 8px 10px;
-  border: 1px solid #a8d5b2;
-  border-radius: 4px;
-  color: #216b35;
-  background: #eaf7ed;
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
+  width: 100%;
+  min-height: 72px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 3px solid #707996;
+  color: #373753;
+  background: #b6f0ba;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: left;
 }
+
+.assertion-alert svg { color: #27834a; flex: none; }
 
 .assertion-failures {
   display: flex;
@@ -472,14 +478,21 @@
 }
 
 .assertion-failures span {
-  padding: 8px 10px;
-  border: 1px solid #efb3b8;
-  color: #a32f39;
-  background: #fff0f1;
-  font-size: 12px;
-  font-weight: 600;
+  width: 100%;
+  min-height: 72px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 3px solid #707996;
+  color: #373753;
+  background: #ffd0d2;
+  font-size: 13px;
+  line-height: 1.5;
   text-align: left;
 }
+
+.assertion-failures svg { color: #c52430; flex: none; }
 
 .footer-actions {
   position: absolute;
