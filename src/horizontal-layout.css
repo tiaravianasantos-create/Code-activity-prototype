@@ -433,11 +433,38 @@
   stroke-width: 3;
 }
 
+.completion-x {
+  color: #c43d46;
+  stroke-width: 3;
+}
+
 .completion-toast span {
   max-width: 330px;
   color: #D4D4E3;
   font-size: 12px;
   line-height: 1.45;
+}
+
+.completion-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.completion-toast .completion-actions {
+  flex-direction: row;
+}
+
+.completion-actions .button:first-child {
+  color: #280953;
+  background: #fff;
+}
+
+.completion-toast .completion-actions .button--outline {
+  color: #fff;
+  border-color: #fff;
+  background: transparent;
 }
 
 .completion-toast .button {
@@ -747,6 +774,14 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 
   .completion-toast .button {
     min-height: 42px;
+  }
+
+  .completion-actions {
+    flex: 0 0 auto;
+  }
+
+  .completion-actions .button {
+    min-width: 0;
   }
 
   .output-label,
