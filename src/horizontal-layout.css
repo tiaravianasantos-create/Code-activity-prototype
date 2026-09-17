@@ -409,8 +409,8 @@
   gap: 20px;
   border: 2px solid #b7dfc0;
   border-radius: 8px;
-  color: #292631;
-  background: #fff;
+  color: #D4D4E3;
+  background: #280953;
   box-shadow: 0 12px 30px rgba(41, 38, 49, .16);
   animation: state-enter 220ms ease both;
 }
@@ -434,8 +434,15 @@
 }
 
 .completion-toast span {
-  color: #6c6774;
+  max-width: 330px;
+  color: #D4D4E3;
   font-size: 12px;
+  line-height: 1.45;
+}
+
+.completion-toast .button {
+  color: #280953;
+  background: #fff;
 }
 
 .tools {

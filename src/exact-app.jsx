@@ -25,6 +25,7 @@ const lessons = [
     output: "Remote depot configured correctly.",
     visual: "network",
     graded: true,
+    completionDescription: "You set both depot rows and columns to 120 minutes while keeping the diagonal unchanged.",
   },
   {
     title: "Map journeys to binary variables",
@@ -41,6 +42,7 @@ const lessons = [
     answer: `one_edge_cost = terms[0] + (0 - 2*A)\ncost_reduction = terms[0] - one_edge_cost\n\nprint("Cost of leaving depot =", one_edge_cost)\nprint("Cost reduction =", cost_reduction)`,
     output: "Cost of leaving depot = 36600\nCost reduction = 12200",
     graded: true,
+    completionDescription: "You applied the departure incentive and correctly calculated the reduction for a zero-minute journey.",
   },
   {
     title: "Add the cost of every road",
@@ -58,6 +60,7 @@ const lessons = [
     output: "2\n(0, 3)",
     visual: "edge",
     graded: true,
+    completionDescription: "You sorted the coefficients, extracted the variable index, and mapped it back to the fastest route.",
   },
   {
     title: "Enforce one arrival and departure",
@@ -66,6 +69,7 @@ const lessons = [
     code: `for node in range(n):\n    out_edges = [get_edge_idx(node, v) for v in range(n) if v != node]\n    for i in range(len(out_edges)):\n        for j in range(i+1, len(out_edges)):\n            terms.append(2*A*variables[out_edges[i]]*variables[out_edges[j]])\n\n    in_edges = [get_edge_idx(u, node) for u in range(n) if u != node]`,
     output: "Added degree penalties.\nTotal terms so far: 37",
     graded: true,
+    completionDescription: "You added pairwise penalties so every location has one arrival and one departure.",
   },
   {
     title: "Measure the cost of taking every road",
@@ -91,6 +95,7 @@ const lessons = [
     output: "1\nDisconnected loop detected.",
     visual: "subtour",
     graded: true,
+    completionDescription: "You identified the non-zero subtour product and correctly rejected the disconnected route.",
   },
   {
     title: "Compile the cost polynomial",
@@ -320,7 +325,7 @@ function App() {
           {status === "result" && isGraded && !completionToast && <div className="footer-actions"><Button onClick={submit}>Submit</Button></div>}
         </section>
       </div>
-      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong><Check className="completion-check" size={16}/>Well done</strong><span>Activity complete.</span></div><Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button></div>}
+      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong><Check className="completion-check" size={16}/>Well done</strong><span>{lesson.completionDescription || "You applied the required logic correctly."}</span></div><Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button></div>}
       {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><small>RESULT</small><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}
     </main>
   </TooltipProvider>;
