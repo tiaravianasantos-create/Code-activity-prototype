@@ -311,7 +311,7 @@ function App() {
             {Array.from({ length: 4 }, (_, topicIndex) => {
               const isActive = topicIndex === activeTopic;
               const isComplete = topicIsComplete(topicIndex);
-              if (isActive && !isComplete) {
+              if (isActive) {
                 return <div className="topic-expanded" aria-label={`Topic ${topicIndex + 1}`} key={topicIndex}>
                   {Array.from({ length: 4 }, (_, activityIndex) => {
                     const lessonIndex = topicIndex * 4 + activityIndex;
