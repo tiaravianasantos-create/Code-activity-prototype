@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, ChevronLeft, Expand, LoaderCircle, Play, RotateCcw, Sparkles, X } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, Expand, LoaderCircle, Play, RotateCcw, Sparkles, X } from "lucide-react";
 import { flushSync } from "react-dom";
 import { createRoot } from "react-dom/client";
 import { Button } from "./components/ui/button";
@@ -24,6 +24,7 @@ const lessons = [
     answer: `# Set all depot departures and arrivals\ninstance[0, 1:] = 120\ninstance[1:, 0] = 120\n\nvisualize_instance(instance)`,
     output: "Remote depot configured correctly.",
     visual: "network",
+    graded: true,
   },
   {
     title: "Map journeys to binary variables",
@@ -39,6 +40,7 @@ const lessons = [
     code: `one_edge_cost = terms[0] + (___)\ncost_reduction = terms[0] - one_edge_cost\n\nprint("Cost of leaving depot =", one_edge_cost)\nprint("Cost reduction =", cost_reduction)`,
     answer: `one_edge_cost = terms[0] + (0 - 2*A)\ncost_reduction = terms[0] - one_edge_cost\n\nprint("Cost of leaving depot =", one_edge_cost)\nprint("Cost reduction =", cost_reduction)`,
     output: "Cost of leaving depot = 36600\nCost reduction = 12200",
+    graded: true,
   },
   {
     title: "Add the cost of every road",
@@ -55,6 +57,7 @@ const lessons = [
     answer: `sorted_terms = sorted(terms, key=lambda t: t.as_coeff_Mul()[0])\n\nindx = str(sorted_terms[0].as_coeff_Mul()[1])[1:]\nroute = get_edge_coords(int(indx), n)\n\nprint(indx)\nprint(route)`,
     output: "2\n(0, 3)",
     visual: "edge",
+    graded: true,
   },
   {
     title: "Enforce one arrival and departure",
@@ -62,6 +65,7 @@ const lessons = [
     note: "These terms encode the rule: visit each location once.",
     code: `for node in range(n):\n    out_edges = [get_edge_idx(node, v) for v in range(n) if v != node]\n    for i in range(len(out_edges)):\n        for j in range(i+1, len(out_edges)):\n            terms.append(2*A*variables[out_edges[i]]*variables[out_edges[j]])\n\n    in_edges = [get_edge_idx(u, node) for u in range(n) if u != node]`,
     output: "Added degree penalties.\nTotal terms so far: 37",
+    graded: true,
   },
   {
     title: "Measure the cost of taking every road",
@@ -86,6 +90,7 @@ const lessons = [
     answer: `solution = {0:1, 1:1, 2:0, 3:1, 4:0, 5:1,\n            6:0, 7:1, 8:1, 9:0, 10:0, 11:1}\n\nprint(solution[4] * solution[6])\n\nis_valid_solution = False`,
     output: "1\nDisconnected loop detected.",
     visual: "subtour",
+    graded: true,
   },
   {
     title: "Compile the cost polynomial",
@@ -189,6 +194,7 @@ function App() {
   const lesson = lessons[step];
   const activeTopic = Math.floor(step / 4);
   const isCompactActivity = lesson.code.includes("___");
+  const isGraded = lesson.graded === true;
 
   const navigateToStep = (nextStep) => {
     const direction = nextStep >= step ? "forward" : "backward";
@@ -226,10 +232,10 @@ function App() {
   }, [status, lesson.delay]);
 
   useEffect(() => {
-    if (status !== "result") return;
+    if (status !== "result" || isGraded) return;
     setCompleted((current) => new Set(current).add(step));
     setCompletionToast(true);
-  }, [status, step]);
+  }, [isGraded, status, step]);
 
   const run = () => {
     setCompletionToast(false);
@@ -241,6 +247,12 @@ function App() {
     setCompletionToast(false);
     setStatus("idle");
     if (step < lessons.length - 1) navigateToStep(step + 1);
+  };
+
+  const submit = () => {
+    if (status !== "result" || !isGraded) return;
+    setCompleted((current) => new Set(current).add(step));
+    setCompletionToast(true);
   };
 
   const openModal = () => {
@@ -304,10 +316,11 @@ function App() {
             </div>
           </div>
           <div className="run-row"><Button className="run" onClick={run} disabled={status === "loading"}><Play size={11} fill="currentColor"/>Run</Button><Button variant="ghost" onClick={()=>{setCode(lesson.code);setStatus("idle");setCompletionToast(false);}}><RotateCcw size={13}/>Reset</Button></div>
-          <div className={`output-pane output-${status}`}><div className="output-label">▱ Output</div>{status === "idle" && <div className="empty-output state-enter" key="idle"><div className="output-symbol">⌬</div><strong>No output yet</strong><small>Execute the code above to display the output.</small></div>}{status === "loading" && <div className="loading-output state-enter" role="status" key="loading"><LoaderCircle size={28}/><strong>Running your code</strong><small>{lesson.delay ? "Optimizing candidate routes…" : "Preparing output…"}</small></div>}{status === "result" && <div className="result-output state-enter" key="result">{lesson.visual ? <div className="graphic-result"><button className="graphic-button" onClick={openModal} aria-label="Open result graphic"><Graphic kind={lesson.visual}/><span><Expand size={12}/> View larger</span></button><div className="assertion-alert" role="status">Assertion critieria met!</div></div> : <div className="text-result"><pre>{lesson.output}</pre><div className="assertion-alert" role="status">Assertion critieria met!</div></div>}{lesson.visual && <pre>{lesson.output}</pre>}</div>}</div>
+          <div className={`output-pane ${status === "result" && (!isGraded || completed.has(step)) ? "output-result" : `output-${status}`} `}><div className="output-label"><span>▱ Output</span><span className={`grading-badge ${isGraded ? "graded" : "not-graded"}`}>{isGraded ? "Graded" : "Not Graded"}</span></div>{status === "idle" && <div className="empty-output state-enter" key="idle"><div className="output-symbol">⌬</div><strong>No output yet</strong><small>Execute the code above to display the output.</small></div>}{status === "loading" && <div className="loading-output state-enter" role="status"><LoaderCircle size={28}/><strong>Running your code</strong><small>{lesson.delay ? "Optimizing candidate routes…" : "Preparing output…"}</small></div>}{status === "result" && <div className="result-output state-enter" key="result">{lesson.visual ? <div className="graphic-result"><button className="graphic-button" onClick={openModal} aria-label="Open result graphic"><Graphic kind={lesson.visual}/><span><Expand size={12}/> View larger</span></button>{(!isGraded || completed.has(step)) && <div className="assertion-alert" role="status">Assertion critieria met!</div>}</div> : <div className="text-result"><pre>{lesson.output}</pre>{(!isGraded || completed.has(step)) && <div className="assertion-alert" role="status">Assertion critieria met!</div>}</div>}{lesson.visual && <pre>{lesson.output}</pre>}</div>}</div>
+          {status === "result" && isGraded && !completionToast && <div className="footer-actions"><Button onClick={submit}>Submit</Button></div>}
         </section>
       </div>
-      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong>Well done</strong><span>Activity complete.</span></div><Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button></div>}
+      {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong><Check className="completion-check" size={16}/>Well done</strong><span>Activity complete.</span></div><Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button></div>}
       {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><small>RESULT</small><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}
     </main>
   </TooltipProvider>;
