@@ -296,27 +296,28 @@ function App() {
 
   return <TooltipProvider delayDuration={100}>
     <main className="app">
-      <nav className="progress-nav" aria-label="Course progress">
-        <Button className="exit-activity" variant="ghost" size="icon" aria-label="Exit activity" onClick={() => window.history.back()}><ChevronLeft size={22} strokeWidth={2.25} /></Button>
-        <div className="progress-crumbs" aria-label="Breadcrumb"><span>Applications</span><span>›</span><span className="crumb-current">Logistics</span></div>
-        <div className="topic-progress">
-          {Array.from({ length: 4 }, (_, topicIndex) => {
-            const isActive = topicIndex === activeTopic;
-            const isComplete = topicIsComplete(topicIndex);
-            if (isActive && !isComplete) {
-              return <div className="topic-expanded" aria-label={`Topic ${topicIndex + 1}`} key={topicIndex}>
-                {Array.from({ length: 4 }, (_, activityIndex) => {
-                  const lessonIndex = topicIndex * 4 + activityIndex;
-                  return <button key={lessonIndex} className={`${completed.has(lessonIndex) ? "complete" : ""} ${lessonIndex === step ? "current" : ""}`} aria-label={`Topic ${topicIndex + 1}, activity ${activityIndex + 1}: ${lessons[lessonIndex].title}`} onClick={() => navigateToStep(lessonIndex)} />;
-                })}
-              </div>;
-            }
-            return <button key={topicIndex} className={`topic-circle ${isComplete ? "complete" : ""}`} aria-label={`Open topic ${topicIndex + 1}${isComplete ? ", complete" : ""}`} onClick={() => navigateToStep(topicIndex * 4)} />;
-          })}
-        </div>
-        <Button className="assistance-button" variant="ghost"><Sparkles size={16} />Assist me</Button>
-      </nav>
       <div className="workspace">
+        <nav className="progress-nav" aria-label="Course progress">
+          <Button className="exit-activity" variant="ghost" size="icon" aria-label="Exit activity" onClick={() => window.history.back()}><ChevronLeft size={22} strokeWidth={2.25} /></Button>
+          <div className="progress-crumbs" aria-label="Breadcrumb"><span>Applications</span><span>›</span><span className="crumb-current">Logistics</span></div>
+          <div className="topic-progress">
+            {Array.from({ length: 4 }, (_, topicIndex) => {
+              const isActive = topicIndex === activeTopic;
+              const isComplete = topicIsComplete(topicIndex);
+              if (isActive && !isComplete) {
+                return <div className="topic-expanded" aria-label={`Topic ${topicIndex + 1}`} key={topicIndex}>
+                  {Array.from({ length: 4 }, (_, activityIndex) => {
+                    const lessonIndex = topicIndex * 4 + activityIndex;
+                    return <button key={lessonIndex} className={`${completed.has(lessonIndex) ? "complete" : ""} ${lessonIndex === step ? "current" : ""}`} aria-label={`Topic ${topicIndex + 1}, activity ${activityIndex + 1}: ${lessons[lessonIndex].title}`} onClick={() => navigateToStep(lessonIndex)} />;
+                  })}
+                </div>;
+              }
+              return <button key={topicIndex} className={`topic-circle ${isComplete ? "complete" : ""}`} aria-label={`Open topic ${topicIndex + 1}${isComplete ? ", complete" : ""}`} onClick={() => navigateToStep(topicIndex * 4)} />;
+            })}
+          </div>
+          <Button className="assistance-button" variant="ghost"><Sparkles size={16} />Assist me</Button>
+        </nav>
+        <div className="workspace-content">
         <section className="lesson-copy lesson-fade" key={`lesson-${step}`}><h1>{lesson.title}</h1><p>{lesson.body}</p><div className="lesson-note">{lesson.note}</div></section>
         <section className={`work-area code-panel-transition ${isCompactActivity ? "work-area-compact" : ""}`}>
           <div className={`editor-pane editor-scroll editor-scroll-${transitionDirection} ${isCompactActivity ? "editor-pane-compact" : ""}`} key={`editor-${step}`}>
@@ -346,6 +347,7 @@ function App() {
           <div className={`output-pane ${status === "result" && isGraded && completed.has(step) ? "output-result" : `output-${status}`} `}><div className="output-label"><span>▱ Output</span><span className={`grading-badge ${isGraded ? "graded" : "not-graded"}`}>{isGraded ? "Graded" : "Not Graded"}</span></div>{status === "idle" && <div className="empty-output state-enter" key="idle"><div className="output-symbol">⌬</div><strong>No output yet</strong><small>Execute the code above to display the output.</small></div>}{status === "loading" && <div className="loading-output state-enter" role="status"><LoaderCircle size={28}/><strong>Running your code</strong><small>{lesson.delay ? "Optimizing candidate routes…" : "Preparing output…"}</small></div>}{status === "result" && <div className="result-output state-enter" key="result">{lesson.visual ? <div className="graphic-result"><button className="graphic-button" onClick={openModal} aria-label="Open result graphic"><Graphic kind={lesson.visual}/><span><Expand size={12}/> View larger</span></button>{isGraded && completed.has(step) && <div className="assertion-alert" role="status">Assertion critieria met!</div>}</div> : <div className="text-result"><pre>{lesson.output}</pre>{isGraded && completed.has(step) && <div className="assertion-alert" role="status">Assertion critieria met!</div>}</div>}{lesson.visual && <pre>{lesson.output}</pre>}</div>}</div>
           {status === "result" && isGraded && !completionToast && <div className="footer-actions"><Button onClick={submit}>Submit</Button></div>}
         </section>
+        </div>
       </div>
       {completionToast && <div className="completion-toast" role="status" aria-live="polite"><div><strong>{isGraded && !isCorrect && !answerRevealed ? <X className="completion-x" size={16}/> : <Check className="completion-check" size={16}/>} {isGraded && !isCorrect && !answerRevealed ? "Not quite" : "Well done"}</strong><span>{isGraded && !isCorrect && !answerRevealed ? "This isnt really what we were after. check the question and look at the tests that are failing" : isGraded ? "You correctly applied the right logic and got the right result. All assertions are met." : "Activity complete"}</span></div>{isGraded && !isCorrect && !answerRevealed ? <div className="completion-actions"><Button onClick={retryActivity}>Retry</Button><Button variant="outline" onClick={showAnswer}>Show answer</Button></div> : <Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button>}</div>}
       {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><small>RESULT</small><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}

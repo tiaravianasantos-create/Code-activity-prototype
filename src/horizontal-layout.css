@@ -39,6 +39,7 @@
   justify-content: center;
   padding-top: 0;
   background: transparent;
+  border-bottom: 1px solid #e5e2e9;
 }
 
 .exit-activity {
@@ -181,6 +182,8 @@
 }
 
 .workspace {
+  display: flex;
+  flex-direction: column;
   margin: 8px 24px 24px;
   overflow: hidden;
   isolation: isolate;
@@ -188,6 +191,12 @@
   border: 1px solid #e5e2e9;
   border-radius: 16px;
   background: #fff;
+}
+
+.workspace-content {
+  flex: 1;
+  min-height: 0;
+  display: grid;
   grid-template-columns: minmax(380px, 36%) minmax(600px, 1fr);
 }
 
@@ -654,6 +663,9 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 
   .workspace {
     margin: 8px 16px 16px;
+  }
+
+  .workspace-content {
     grid-template-columns: 1fr;
   }
 
@@ -795,6 +807,10 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 
   .workspace {
     margin: 12px;
+  }
+
+  .workspace-content {
+    grid-template-columns: 1fr;
   }
 
   .work-area {
