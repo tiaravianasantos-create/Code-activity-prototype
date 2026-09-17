@@ -11,7 +11,8 @@
   padding: 0 28px;
   border-bottom: 1px solid #e5e2e9;
   color: #5d5865;
-  background: #fff;
+  background: rgba(248, 248, 250, .86);
+  backdrop-filter: blur(8px);
 }
 
 .app-header-brand {
