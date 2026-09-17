@@ -152,7 +152,7 @@ function NetworkGraphic({ kind }) {
   const edges = routeOnly
     ? (isSubtour ? [[52,85,166,48],[166,48,52,85],[144,188,258,133],[258,133,144,188]] : [[52,85,166,48],[166,48,258,133],[258,133,144,188],[144,188,52,85]])
     : [[52,85,166,48],[52,85,144,188],[52,85,258,133],[166,48,144,188],[166,48,258,133],[144,188,258,133]];
-  return <svg className="result-graphic network-graphic" viewBox="0 0 310 230" preserveAspectRatio="none" role="img" aria-label={isSubtour ? "Disconnected route visualization" : "Delivery network visualization"}>
+  return <svg className="result-graphic network-graphic" viewBox="0 0 310 230" preserveAspectRatio="xMidYMid meet" role="img" aria-label={isSubtour ? "Disconnected route visualization" : "Delivery network visualization"}>
     {edges.map((edge, index) => <line key={index} x1={edge[0]} y1={edge[1]} x2={edge[2]} y2={edge[3]} className={routeOnly ? "chosen-edge" : "map-edge"} />)}
     {!routeOnly && ["120","120","120","61","52","52"].map((value,index) => <text key={index} x={[105,85,155,146,204,205][index]} y={[63,137,105,126,87,169][index]}>{value}</text>)}
     {[[52,85,"D"],[166,48,"1"],[144,188,"2"],[258,133,"3"]].map(([x,y,label], index) => <g key={label} className={index === 0 ? "map-node depot-node" : "map-node"}><circle cx={x} cy={y} r="18"/><text x={x} y={y+4}>{label}</text></g>)}
