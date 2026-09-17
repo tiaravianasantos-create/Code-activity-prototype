@@ -20,20 +20,9 @@
 }
 
 .app-header-mark {
-  width: 20px;
-  height: 20px;
+  width: 32px;
+  height: 32px;
   display: block;
-  border: 2px solid #7026ca;
-  border-radius: 50%;
-  position: relative;
-}
-
-.app-header-mark::before {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  border: 1px solid #7026ca;
-  border-radius: 50%;
 }
 
 .app-header-tabs {

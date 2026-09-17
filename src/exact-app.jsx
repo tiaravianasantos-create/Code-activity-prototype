@@ -297,7 +297,7 @@ function App() {
   return <TooltipProvider delayDuration={100}>
     <main className="app">
       <header className="app-header">
-        <div className="app-header-brand" aria-label="Classiq home"><span className="app-header-mark" aria-hidden="true" /></div>
+        <div className="app-header-brand" aria-label="Classiq home"><img className="app-header-mark" src="/logo.svg" alt="" /></div>
         <div className="app-header-tabs" role="tablist" aria-label="Workspace views">
           <button className="app-header-tab active" role="tab" aria-selected="true">Learn</button>
           <button className="app-header-tab" role="tab" aria-selected="false">Practice</button>
