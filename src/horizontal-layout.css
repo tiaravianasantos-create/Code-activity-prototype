@@ -432,6 +432,11 @@
 .graphic-result .graphic-button {
   width: 100%;
   flex: 1;
+  max-height: none;
+}
+
+.graphic-result .result-graphic {
+  height: 100%;
 }
 
 .assertion-alert {
