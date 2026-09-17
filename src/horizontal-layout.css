@@ -2,6 +2,72 @@
   background: #f7f6f8;
 }
 
+.app-header {
+  height: 68px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 0 28px;
+  border-bottom: 1px solid #e5e2e9;
+  color: #5d5865;
+  background: #fff;
+}
+
+.app-header-brand {
+  display: flex;
+  align-items: center;
+}
+
+.app-header-mark {
+  width: 20px;
+  height: 20px;
+  display: block;
+  border: 2px solid #7026ca;
+  border-radius: 50%;
+  position: relative;
+}
+
+.app-header-mark::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid #7026ca;
+  border-radius: 50%;
+}
+
+.app-header-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.app-header-tab {
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 4px;
+  color: #77727e;
+  background: transparent;
+  font: 500 12px "DM Sans", sans-serif;
+  cursor: pointer;
+}
+
+.app-header-tab.active {
+  color: #7026ca;
+  background: #f0e8ff;
+}
+
+.app-header-tools {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.app-header-tools svg:last-child {
+  color: #287c91;
+}
+
 .topbar {
   gap: 10px;
   padding: 0 20px;
@@ -687,6 +753,20 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 }
 
 @media (max-width: 560px) {
+  .app-header {
+    height: 56px;
+    padding: 0 16px;
+    gap: 16px;
+  }
+
+  .app-header-tools {
+    gap: 12px;
+  }
+
+  .app-header-tools svg:first-child {
+    display: none;
+  }
+
   .topbar {
     padding: 0 10px;
   }
