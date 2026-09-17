@@ -148,7 +148,7 @@
 .progress-crumbs {
   height: 32px;
   position: absolute;
-  left: 78px;
+  left: 24px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
@@ -715,13 +715,13 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
   }
 
   .progress-crumbs {
-    left: 78px;
+    left: 24px;
     font-size: 11px;
   }
 
   .topic-progress {
     position: absolute;
-    left: 78px;
+    left: 132px;
     right: 24px;
     width: auto;
     transform: none;
@@ -791,12 +791,12 @@ html[data-activity-direction="backward"]::view-transition-new(code-panel) {
 
   .progress-crumbs {
     display: none;
-    left: 64px;
+    left: 12px;
     font-size: 10px;
   }
 
   .topic-progress {
-    left: 64px;
+    left: 12px;
     right: 16px;
     width: auto;
     gap: 10px;

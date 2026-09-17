@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, Check, ChevronLeft, CircleUserRound, Code2, Expand, LoaderCircle, MoreHorizontal, Play, RotateCcw, Sparkles, X } from "lucide-react";
+import { ArrowRight, Check, CircleUserRound, Code2, Expand, LoaderCircle, MoreHorizontal, Play, RotateCcw, Sparkles, X } from "lucide-react";
 import { flushSync } from "react-dom";
 import { createRoot } from "react-dom/client";
 import { Button } from "./components/ui/button";
@@ -306,7 +306,6 @@ function App() {
       </header>
       <div className="workspace">
         <nav className="progress-nav" aria-label="Course progress">
-          <Button className="exit-activity" variant="ghost" size="icon" aria-label="Exit activity" onClick={() => window.history.back()}><ChevronLeft size={22} strokeWidth={2.25} /></Button>
           <div className="progress-crumbs" aria-label="Breadcrumb"><span>Applications</span><span>›</span><span className="crumb-current">Logistics</span></div>
           <div className="topic-progress">
             {Array.from({ length: 4 }, (_, topicIndex) => {
