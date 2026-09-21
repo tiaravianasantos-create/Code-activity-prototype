@@ -262,24 +262,25 @@
 }
 
 .lesson-copy h1 {
-  max-width: 390px;
-  font-size: 20px;
+  max-width: 460px;
+  font-size: 28px;
 }
 
 .lesson-copy p {
-  max-width: 385px;
-  font-size: 13px;
+  width: 100%;
+  max-width: none;
+  font-size: 16px;
   line-height: 1.65;
 }
 
 .lesson-note {
-  max-width: 380px;
+  max-width: 460px;
   margin-top: 18px;
   padding: 0;
   border-left: 0;
   color: #5e5a67;
   background: transparent;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.65;
 }
 
