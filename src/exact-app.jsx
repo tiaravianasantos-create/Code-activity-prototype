@@ -22,7 +22,7 @@ const lessons = [
     note: "Use row and column indexing. The diagonal must remain zero.",
     code: `# Complete both indices\ninstance[0, ___] = 120\ninstance[___, 0] = 120\n\nvisualize_instance(instance)`,
     answer: `# Set all depot departures and arrivals\ninstance[0, 1:] = 120\ninstance[1:, 0] = 120\n\nvisualize_instance(instance)`,
-    output: "Remote depot configured correctly.",
+    output: "",
     visual: "network",
     graded: true,
     completionDescription: "You set both depot rows and columns to 120 minutes while keeping the diagonal unchanged.",
@@ -93,7 +93,7 @@ const lessons = [
     note: "A non-zero subtour product means the solution is invalid.",
     code: `solution = {0:1, 1:1, 2:0, 3:1, 4:0, 5:1,\n            6:0, 7:1, 8:1, 9:0, 10:0, 11:1}\n\nprint(solution[4] * solution[___])\n\nis_valid_solution = ___`,
     answer: `solution = {0:1, 1:1, 2:0, 3:1, 4:0, 5:1,\n            6:0, 7:1, 8:1, 9:0, 10:0, 11:1}\n\nprint(solution[4] * solution[6])\n\nis_valid_solution = False`,
-    output: "1\nDisconnected loop detected.",
+    output: "",
     visual: "subtour",
     graded: true,
     passes: false,
@@ -198,6 +198,7 @@ function App() {
   const [completionToast, setCompletionToast] = useState(false);
   const [answerRevealed, setAnswerRevealed] = useState(false);
   const [submissionAttempted, setSubmissionAttempted] = useState(false);
+  const [runLocked, setRunLocked] = useState(false);
   const [completed, setCompleted] = useState(new Set());
   const highlightRef = useRef(null);
   const lesson = lessons[step];
@@ -235,6 +236,7 @@ function App() {
     setCompletionToast(false);
     setAnswerRevealed(false);
     setSubmissionAttempted(false);
+    setRunLocked(false);
   }, [step]);
 
   useEffect(() => {
@@ -253,6 +255,7 @@ function App() {
     setCompletionToast(false);
     setAnswerRevealed(false);
     setSubmissionAttempted(false);
+    setRunLocked(true);
     if (lesson.answer) setCode(lesson.answer);
     setStatus("loading");
   };
@@ -265,10 +268,9 @@ function App() {
 
   const retryActivity = () => {
     setCode(lesson.code);
-    setStatus("idle");
     setCompletionToast(false);
     setAnswerRevealed(false);
-    setSubmissionAttempted(false);
+    setRunLocked(false);
   };
 
   const showAnswer = () => {
@@ -327,11 +329,11 @@ function App() {
               return <button key={topicIndex} className={`topic-circle ${isComplete ? "complete" : ""}`} aria-label={`Open topic ${topicIndex + 1}${isComplete ? ", complete" : ""}`} onClick={() => navigateToStep(topicIndex * 4)} />;
             })}
           </div>
-          <Button className="assistance-button" variant="ghost"><Sparkles size={16} />Assist me</Button>
+          <Button className="assistance-button" variant="ghost"><Sparkles size={16} />Ask AI</Button>
         </nav>
         <div className="workspace-content">
         <section className="lesson-copy lesson-fade" key={`lesson-${step}`}><h1>{lesson.title}</h1><p>{lesson.body}</p><div className="lesson-note">{lesson.note}</div></section>
-        <section className={`work-area code-panel-transition ${isCompactActivity ? "work-area-compact" : ""}`}>
+        <section className={`work-area code-panel-transition ${isCompactActivity ? "work-area-compact" : ""} ${status === "result" && isGraded && !completionToast ? "work-area-has-submit" : ""}`}>
           <div className={`editor-pane editor-scroll editor-scroll-${transitionDirection} ${isCompactActivity ? "editor-pane-compact" : ""}`} key={`editor-${step}`}>
             <div className="line-numbers">{Array.from({length:Math.max(8,code.split("\n").length)},(_,index)=><span key={index}>{index+1}</span>)}</div>
             <div className="editor-code-stack">
@@ -356,14 +358,14 @@ function App() {
               />
             </div>
           </div>
-          <div className="run-row"><Button className="run" onClick={run} disabled={status === "loading"}><Play size={11} fill="currentColor"/>Run</Button><Button variant="ghost" onClick={()=>{setCode(lesson.code);setStatus("idle");setCompletionToast(false);setAnswerRevealed(false);setSubmissionAttempted(false);}}><RotateCcw size={13}/>Reset</Button></div>
-          <div className={`output-pane ${status === "result" && isGraded && completed.has(step) ? "output-result" : `output-${status}`} `}><div className="output-label"><span>▱ Output</span><span className={`grading-badge ${isGraded ? "graded" : "not-graded"}`}>{isGraded ? "Graded" : "Not Graded"}</span></div>{status === "idle" && <div className="empty-output state-enter" key="idle"><div className="output-symbol">⌬</div><strong>No output yet</strong><small>Execute the code above to display the output.</small></div>}{status === "loading" && <div className="loading-output state-enter" role="status"><LoaderCircle size={28}/><strong>Running your code</strong><small>{lesson.delay ? "Optimizing candidate routes…" : "Preparing output…"}</small></div>}{status === "result" && <div className="result-output state-enter" key="result">{lesson.visual ? <div className="graphic-result"><button className="graphic-button" onClick={openModal} aria-label="Open result graphic"><Graphic kind={lesson.visual}/><span><Expand size={12}/> View larger</span></button>{isGraded && completed.has(step) && <div className="assertion-alert" role="status"><CircleCheck size={18}/>Assertion critieria met!</div>}{isGraded && !isCorrect && submissionAttempted && !answerRevealed && <div className="assertion-failures" role="alert"><span><CircleAlert size={18}/>Assertion 1 test failed</span><span><CircleAlert size={18}/>Assertion 2 test failed</span></div>}</div> : <div className="text-result"><pre>{lesson.output}</pre>{isGraded && completed.has(step) && <div className="assertion-alert" role="status"><CircleCheck size={18}/>Assertion critieria met!</div>}{isGraded && !isCorrect && submissionAttempted && !answerRevealed && <div className="assertion-failures" role="alert"><span><CircleAlert size={18}/>Assertion 1 test failed</span><span><CircleAlert size={18}/>Assertion 2 test failed</span></div>}</div>}{lesson.visual && <pre>{lesson.output}</pre>}</div>}</div>
-          {status === "result" && isGraded && !completionToast && <div className="footer-actions"><Button onClick={submit}>Submit</Button></div>}
+          <div className="run-row"><Button className="run" onClick={run} disabled={status === "loading" || runLocked}><Play size={11} fill="currentColor"/>Run</Button><Button variant="ghost" onClick={()=>{setCode(lesson.code);setStatus("idle");setCompletionToast(false);setAnswerRevealed(false);setSubmissionAttempted(false);setRunLocked(false);}}><RotateCcw size={13}/>Reset</Button></div>
+          <div className={`output-pane ${status === "result" && isGraded && completed.has(step) ? "output-result" : status === "result" && isGraded && !isCorrect && submissionAttempted && !answerRevealed ? "output-error" : `output-${status}`} `}><div className="output-label"><span>▱ Output</span><span className={`grading-badge ${isGraded ? "graded" : "not-graded"}`}>{isGraded ? "Graded" : "Not Graded"}</span></div>{status === "idle" && <div className="empty-output state-enter" key="idle"><div className="output-symbol">⌬</div><strong>No output yet</strong><small>Execute the code above to display the output.</small></div>}{status === "loading" && <div className="loading-output state-enter" role="status"><LoaderCircle size={28}/><strong>Running your code</strong><small>{lesson.delay ? "Optimizing candidate routes…" : "Preparing output…"}</small></div>}{status === "result" && <div className="result-output state-enter" key="result">{lesson.visual ? <div className="graphic-result"><button className="graphic-button" onClick={openModal} aria-label="Open result graphic"><Graphic kind={lesson.visual}/><span><Expand size={12}/> View larger</span></button>{isGraded && completed.has(step) && <div className="assertion-alert" role="status"><CircleCheck size={18}/>Assertion critieria met!</div>}{isGraded && !isCorrect && submissionAttempted && !answerRevealed && <div className="assertion-failures" role="alert"><span><CircleAlert size={18}/>Assertion 1 test failed</span><span><CircleAlert size={18}/>Assertion 2 test failed</span></div>}</div> : <div className="text-result"><pre>{lesson.output}</pre>{isGraded && completed.has(step) && <div className="assertion-alert" role="status"><CircleCheck size={18}/>Assertion critieria met!</div>}{isGraded && !isCorrect && submissionAttempted && !answerRevealed && <div className="assertion-failures" role="alert"><span><CircleAlert size={18}/>Assertion 1 test failed</span><span><CircleAlert size={18}/>Assertion 2 test failed</span></div>}</div>}{lesson.visual && <pre>{lesson.output}</pre>}</div>}</div>
+          {status === "result" && isGraded && !completionToast && !submissionAttempted && <div className="footer-actions"><Button className="run" onClick={submit}>Submit</Button></div>}
         </section>
         </div>
       </div>
-      {completionToast && <div className={`completion-toast ${isGraded && !isCorrect && !answerRevealed ? "completion-toast-error" : ""}`} role="status" aria-live="polite"><div><strong>{isGraded && !isCorrect && !answerRevealed ? <X className="completion-x" size={16}/> : <Check className="completion-check" size={16}/>} {isGraded && !isCorrect && !answerRevealed ? "Not quite" : "Well done"}</strong></div>{isGraded && !isCorrect && !answerRevealed ? <div className="completion-actions"><Button onClick={retryActivity}>Retry</Button><Button variant="outline" onClick={showAnswer}>Show answer</Button></div> : <Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button>}</div>}
-      {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><small>RESULT</small><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}
+      {completionToast && <div className={`completion-toast ${isGraded && !isCorrect && !answerRevealed ? "completion-toast-error" : ""}`} role="status" aria-live="polite"><div><strong>{isGraded && !isCorrect && !answerRevealed ? <X className="completion-x" size={16}/> : <Check className="completion-check" size={16}/>} {answerRevealed ? "The answer was..." : isGraded && !isCorrect && !answerRevealed ? "Not quite" : "Well done"}</strong></div>{isGraded && !isCorrect && !answerRevealed ? <div className="completion-actions"><Button onClick={retryActivity}>Retry</Button><Button variant="outline" onClick={showAnswer}>Show answer</Button></div> : <Button onClick={continueActivity}>Continue<ArrowRight size={14}/></Button>}</div>}
+      {modal && <div className={`modal-backdrop ${modalClosing ? "is-closing" : ""}`} role="presentation" onMouseDown={closeModal}><div className="graphic-modal" role="dialog" aria-modal="true" aria-label={`${lesson.title} result`} onMouseDown={(event)=>event.stopPropagation()}><div className="modal-head"><div><h2>{lesson.title}</h2></div><Button variant="ghost" size="icon" aria-label="Close" onClick={closeModal}><X size={18}/></Button></div><div className="modal-content"><Graphic kind={lesson.visual}/></div><pre>{lesson.output}</pre></div></div>}
     </main>
   </TooltipProvider>;
 }
